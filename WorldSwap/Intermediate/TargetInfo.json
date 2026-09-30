@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "WorldSwap",
+			"Path": "..\\Source\\WorldSwap.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "WorldSwapEditor",
+			"Path": "..\\Source\\WorldSwapEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

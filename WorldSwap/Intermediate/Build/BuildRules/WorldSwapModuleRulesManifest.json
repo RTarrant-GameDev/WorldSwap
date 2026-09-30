@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"W:\\Work\\Game Dev\\WorldSwap\\WorldSwap\\Source\\WorldSwap\\WorldSwap.Build.cs",
+		"W:\\Work\\Game Dev\\WorldSwap\\WorldSwap\\Source\\WorldSwap.Target.cs",
+		"W:\\Work\\Game Dev\\WorldSwap\\WorldSwap\\Source\\WorldSwapEditor.Target.cs"
+	],
+	"EngineVersion": "5.8.3"
+}
