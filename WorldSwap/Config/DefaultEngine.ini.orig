@@ -276,6 +276,7 @@ DefaultGraphicsPerformance=EGraphicsPreset::Scalable
 +ActiveClassRedirects=(OldClassName="TP_ThirdPersonPlayerController",NewClassName="WorldSwapPlayerController")
 +ActiveClassRedirects=(OldClassName="TP_ThirdPersonGameMode",NewClassName="WorldSwapGameMode")
 +ActiveClassRedirects=(OldClassName="TP_ThirdPersonCharacter",NewClassName="WorldSwapCharacter")
+<<<<<<< HEAD
 
 [/Script/AndroidFileServerEditor.AndroidFileServerRuntimeSettings]
 bEnablePlugin=True
@@ -291,3 +292,5 @@ ConnectionType=USBOnly
 bUseManualIPAddress=False
 ManualIPAddress=
 
+=======
+>>>>>>> 451d223ab9bd911c89a4b028d207d9bc450cb151
