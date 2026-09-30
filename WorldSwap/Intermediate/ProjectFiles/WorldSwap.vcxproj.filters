@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\WorldSwap.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\WorldSwapEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Source\WorldSwap">
+      <UniqueIdentifier>{F5B5CDC1-2133-3ADF-8500-32C603664054}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\WorldSwap\Variant_Combat">
+      <UniqueIdentifier>{C57BEFE2-40FA-3EAA-8D42-1684E75FB2A8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\WorldSwap\Variant_Combat\AI">
+      <UniqueIdentifier>{4476F8B9-59A0-36D9-B597-6128CE263AFD}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatAIController.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatAIController.h">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatEnemy.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatEnemy.h">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatEnemySpawner.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatEnemySpawner.h">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatStateTreeUtility.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatStateTreeUtility.h">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\AI\EnvQueryContext_Danger.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\AI\EnvQueryContext_Danger.h">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\AI\EnvQueryContext_Player.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\AI\EnvQueryContext_Player.h">
+      <Filter>Source\WorldSwap\Variant_Combat\AI</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_Combat\Animation">
+      <UniqueIdentifier>{DB01AAC4-F7CF-31C1-BE5B-CE8725EE36FB}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Animation\AnimNotify_CheckChargedAttack.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Animation</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Animation\AnimNotify_CheckChargedAttack.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Animation</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Animation\AnimNotify_CheckCombo.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Animation</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Animation\AnimNotify_CheckCombo.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Animation</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Animation\AnimNotify_DoAttackTrace.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Animation</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Animation\AnimNotify_DoAttackTrace.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Animation</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\CombatCharacter.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\CombatCharacter.h">
+      <Filter>Source\WorldSwap\Variant_Combat</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\CombatGameMode.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\CombatGameMode.h">
+      <Filter>Source\WorldSwap\Variant_Combat</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\CombatPlayerController.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\CombatPlayerController.h">
+      <Filter>Source\WorldSwap\Variant_Combat</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_Combat\Gameplay">
+      <UniqueIdentifier>{BCFB6087-DFEE-3A92-ADAC-519274BD172F}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatActivationVolume.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatActivationVolume.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatCheckpointVolume.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatCheckpointVolume.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatDamageableBox.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatDamageableBox.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatDummy.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatDummy.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatLavaFloor.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Gameplay\CombatLavaFloor.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Gameplay</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_Combat\Interfaces">
+      <UniqueIdentifier>{1244CE11-8E6D-30C3-A194-EB999498C493}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Interfaces\CombatActivatable.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Interfaces</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Interfaces\CombatActivatable.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Interfaces</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Interfaces\CombatAttacker.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Interfaces</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Interfaces\CombatAttacker.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Interfaces</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\Interfaces\CombatDamageable.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\Interfaces</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\Interfaces\CombatDamageable.h">
+      <Filter>Source\WorldSwap\Variant_Combat\Interfaces</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_Combat\UI">
+      <UniqueIdentifier>{39B76580-B097-3E55-B19C-4F97671ADA6E}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\UI\CombatLifeBar.cpp">
+      <Filter>Source\WorldSwap\Variant_Combat\UI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Combat\UI\CombatLifeBar.h">
+      <Filter>Source\WorldSwap\Variant_Combat\UI</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_Platforming">
+      <UniqueIdentifier>{F40BDCFD-7019-3052-8525-2A0B4B626ABF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\WorldSwap\Variant_Platforming\Animation">
+      <UniqueIdentifier>{E0B01930-6D46-36F2-B5A3-E68725AEFAF5}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Platforming\Animation\AnimNotify_EndDash.cpp">
+      <Filter>Source\WorldSwap\Variant_Platforming\Animation</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Platforming\Animation\AnimNotify_EndDash.h">
+      <Filter>Source\WorldSwap\Variant_Platforming\Animation</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Platforming\PlatformingCharacter.cpp">
+      <Filter>Source\WorldSwap\Variant_Platforming</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Platforming\PlatformingCharacter.h">
+      <Filter>Source\WorldSwap\Variant_Platforming</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Platforming\PlatformingGameMode.cpp">
+      <Filter>Source\WorldSwap\Variant_Platforming</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Platforming\PlatformingGameMode.h">
+      <Filter>Source\WorldSwap\Variant_Platforming</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_Platforming\PlatformingPlayerController.cpp">
+      <Filter>Source\WorldSwap\Variant_Platforming</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_Platforming\PlatformingPlayerController.h">
+      <Filter>Source\WorldSwap\Variant_Platforming</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_SideScrolling">
+      <UniqueIdentifier>{BFF06945-615B-311B-9F42-519BBFF45EC4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\WorldSwap\Variant_SideScrolling\AI">
+      <UniqueIdentifier>{30AC2A01-7655-36DB-977E-261E63EDF361}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\AI\SideScrollingAIController.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\AI\SideScrollingAIController.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\AI</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\AI\SideScrollingNPC.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\AI\SideScrollingNPC.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\AI</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\AI\SideScrollingStateTreeUtility.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\AI\SideScrollingStateTreeUtility.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\AI</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_SideScrolling\Gameplay">
+      <UniqueIdentifier>{495AF3E5-71AC-331F-BE3D-838881862855}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\Gameplay\SideScrollingJumpPad.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\Gameplay\SideScrollingJumpPad.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Gameplay</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\Gameplay\SideScrollingMovingPlatform.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\Gameplay\SideScrollingMovingPlatform.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Gameplay</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\Gameplay\SideScrollingPickup.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\Gameplay\SideScrollingPickup.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Gameplay</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\Gameplay\SideScrollingSoftPlatform.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Gameplay</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\Gameplay\SideScrollingSoftPlatform.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Gameplay</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_SideScrolling\Interfaces">
+      <UniqueIdentifier>{3DAF958C-E916-3080-B198-723C4A8B1E9F}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\Interfaces\SideScrollingInteractable.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Interfaces</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\Interfaces\SideScrollingInteractable.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\Interfaces</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\SideScrollingCameraManager.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\SideScrollingCameraManager.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\SideScrollingCharacter.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\SideScrollingCharacter.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\SideScrollingGameMode.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\SideScrollingGameMode.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\SideScrollingPlayerController.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\SideScrollingPlayerController.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling</Filter>
+    </ClInclude>
+    <Filter Include="Source\WorldSwap\Variant_SideScrolling\UI">
+      <UniqueIdentifier>{EB72D754-9C4B-3867-9D30-0AAC941A05F9}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\Variant_SideScrolling\UI\SideScrollingUI.cpp">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\UI</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\Variant_SideScrolling\UI\SideScrollingUI.h">
+      <Filter>Source\WorldSwap\Variant_SideScrolling\UI</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\WorldSwap\WorldSwap.Build.cs">
+      <Filter>Source\WorldSwap</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\WorldSwap\WorldSwap.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\WorldSwap.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\WorldSwapCharacter.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\WorldSwapCharacter.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\WorldSwapGameMode.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\WorldSwapGameMode.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\WorldSwapPlayerController.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\WorldSwapPlayerController.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <None Include="..\..\WorldSwap.uproject" />
+  </ItemGroup>
+</Project>
