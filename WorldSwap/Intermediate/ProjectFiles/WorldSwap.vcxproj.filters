@@ -43,6 +43,18 @@
     <ClInclude Include="..\..\Source\WorldSwap\LevelEndpoint.h">
       <Filter>Source\WorldSwap</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\LevelPlatform.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\LevelPlatform.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\LevelPlatform_MovementComponent.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\LevelPlatform_MovementComponent.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
     <Filter Include="Source\WorldSwap\Variant_Combat">
       <UniqueIdentifier>{C57BEFE2-40FA-3EAA-8D42-1684E75FB2A8}</UniqueIdentifier>
     </Filter>

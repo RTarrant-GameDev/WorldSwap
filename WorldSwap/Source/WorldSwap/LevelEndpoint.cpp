@@ -45,7 +45,7 @@ void ALevelEndpoint::Tick(float DeltaTime)
 void ALevelEndpoint::Collide()
 {
 	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Collision detected!"));
+		GEngine->AddOnScreenDebugMessage(-1, 25.0f, FColor::Blue, TEXT("Level completed!"));
 	}
 }
 

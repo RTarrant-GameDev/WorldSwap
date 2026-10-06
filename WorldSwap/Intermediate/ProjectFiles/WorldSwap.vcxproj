@@ -264,6 +264,14 @@
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClInclude Include="..\..\Source\WorldSwap\LevelEndpoint.h"/>
+    <ClCompile Include="..\..\Source\WorldSwap\LevelPlatform.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\LevelPlatform.h"/>
+    <ClCompile Include="..\..\Source\WorldSwap\LevelPlatform_MovementComponent.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\LevelPlatform_MovementComponent.h"/>
     <ClCompile Include="..\..\Source\WorldSwap\Variant_Combat\AI\CombatAIController.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
