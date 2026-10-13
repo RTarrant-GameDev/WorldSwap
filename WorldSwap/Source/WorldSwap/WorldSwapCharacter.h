@@ -49,6 +49,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
 
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* PauseAction;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* WorldSwapAction1;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* WorldSwapAction2;
+
 public:
 
 	/** Constructor */
@@ -66,6 +75,12 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	/** Called for WorldSwapping */
+	void WorldSwapDimensionSwap1();
+	void WorldSwapDimensionSwap2();
+
+	void Pause();
 
 public:
 

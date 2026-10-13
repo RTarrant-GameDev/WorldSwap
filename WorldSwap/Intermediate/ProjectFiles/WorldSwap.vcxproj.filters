@@ -37,6 +37,18 @@
     <Filter Include="Source\WorldSwap">
       <UniqueIdentifier>{F5B5CDC1-2133-3ADF-8500-32C603664054}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\WorldSwap\FallBoundary.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\FallBoundary.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\GameStateSubSystem.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\GameStateSubSystem.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\WorldSwap\LevelEndpoint.cpp">
       <Filter>Source\WorldSwap</Filter>
     </ClCompile>
@@ -53,6 +65,12 @@
       <Filter>Source\WorldSwap</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\WorldSwap\LevelPlatform_MovementComponent.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\UIManager.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\UIManager.h">
       <Filter>Source\WorldSwap</Filter>
     </ClInclude>
     <Filter Include="Source\WorldSwap\Variant_Combat">
@@ -335,6 +353,12 @@
       <Filter>Source\WorldSwap</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\WorldSwap\WorldSwapCharacter.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\WorldSwapGameInstance.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\WorldSwapGameInstance.h">
       <Filter>Source\WorldSwap</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\WorldSwap\WorldSwapGameMode.cpp">

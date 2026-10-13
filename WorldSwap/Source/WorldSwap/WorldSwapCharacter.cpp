@@ -7,9 +7,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
+#include "Kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "WorldSwapGameMode.h"
 #include "WorldSwap.h"
 
 AWorldSwapCharacter::AWorldSwapCharacter()
@@ -65,6 +67,13 @@ void AWorldSwapCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AWorldSwapCharacter::Look);
+
+		//WorldSwap
+		EnhancedInputComponent->BindAction(WorldSwapAction1, ETriggerEvent::Triggered, this, &AWorldSwapCharacter::WorldSwapDimensionSwap1);
+		EnhancedInputComponent->BindAction(WorldSwapAction2, ETriggerEvent::Triggered, this, &AWorldSwapCharacter::WorldSwapDimensionSwap2);
+
+		// Pause game
+		EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Triggered, this, &AWorldSwapCharacter::Pause);
 	}
 	else
 	{
@@ -88,6 +97,21 @@ void AWorldSwapCharacter::Look(const FInputActionValue& Value)
 
 	// route the input
 	DoLook(LookAxisVector.X, LookAxisVector.Y);
+}
+
+void AWorldSwapCharacter::WorldSwapDimensionSwap1()
+{
+	Cast<AWorldSwapGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->SetWorldSwapSet(0);
+}
+
+void AWorldSwapCharacter::WorldSwapDimensionSwap2()
+{
+	Cast<AWorldSwapGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->SetWorldSwapSet(1);
+}
+
+void AWorldSwapCharacter::Pause()
+{
+	Cast<AWorldSwapGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->PauseGame();
 }
 
 void AWorldSwapCharacter::DoMove(float Right, float Forward)

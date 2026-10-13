@@ -96427,6 +96427,12 @@
     <Filter Include="Plugins\Fab\Source\Fab\Private">
       <UniqueIdentifier>{3DDD72C1-5B9F-3151-BD14-F918C812FAAA}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabActiveWorkflowRegistry.cpp">
+      <Filter>Plugins\Fab\Source\Fab\Private</Filter>
+    </ClCompile>
+    <ClInclude Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabActiveWorkflowRegistry.h">
+      <Filter>Plugins\Fab\Source\Fab\Private</Filter>
+    </ClInclude>
     <ClCompile Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabAuthentication.cpp">
       <Filter>Plugins\Fab\Source\Fab\Private</Filter>
     </ClCompile>

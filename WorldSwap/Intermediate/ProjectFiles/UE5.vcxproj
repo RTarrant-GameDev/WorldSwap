@@ -77984,6 +77984,12 @@
     <None Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Resources\Logo32x32.png"/>
     <None Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Resources\Logo80x80.png"/>
     <None Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Fab.Build.cs"/>
+    <ClCompile Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabActiveWorkflowRegistry.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_788)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_788)</ForcedIncludeFiles>
+      <AdditionalOptions>$(ClCompile_AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClInclude Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabActiveWorkflowRegistry.h"/>
     <ClCompile Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabAuthentication.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_788)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_788)</ForcedIncludeFiles>
