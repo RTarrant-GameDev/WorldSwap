@@ -8,8 +8,6 @@
 
 void UUIManager::Initialize(UWorld* World)
 {
-    CachedWorld = World;
-
     UGameInstance* GI = UGameplayStatics::GetGameInstance(World);
     if (!GI)
     {
@@ -27,34 +25,27 @@ void UUIManager::Initialize(UWorld* World)
 
 void UUIManager::HandleStateChanged(EGameState NewState)
 {
-    UE_LOG(LogTemp, Warning, TEXT("UIManager received state: %d (%p)"),
-        (int32)NewState, this);
-    switch (NewState)
+    PendingState = NewState;
+
+    UWorld* World = GetWorld();
+    if (!World)
     {
-    case EGameState::Start:
-        UE_LOG(LogTemp, Warning, TEXT("Start Menu Initiating"));
-        ShowStartMenu();
-        break;
-
-    case EGameState::Gameplay:
-        ShowHUD();
-        break;
-
-    case EGameState::Pause:
-        ShowPauseMenu();
-        break;
-
-    case EGameState::GameOver:
-        ShowGameOverMenu();
-        break;
-
-    default:
-        break;
+        return;
     }
+
+    World->GetTimerManager().SetTimerForNextTick(this, &UUIManager::ProcessStateChange);
 }
 
-static void ReplaceWidget(UWorld* World, UUserWidget*& CurrentWidget, const TCHAR* Path)
+static void ReplaceWidget(UUserWidget*& CurrentWidget, const TCHAR* Path, UWorld* World)
 {
+    ULocalPlayer* LP = World->GetFirstLocalPlayerFromController();
+    if (!LP)
+    {
+        UE_LOG(LogTemp, Error, TEXT("ReplaceWidget: No LocalPlayer yet — deferring"));
+        return;
+    }
+
+
     if (CurrentWidget)
     {
         CurrentWidget->RemoveFromParent();
@@ -67,8 +58,14 @@ static void ReplaceWidget(UWorld* World, UUserWidget*& CurrentWidget, const TCHA
         return;
     }
 
-    UE_LOG(LogTemp, Warning, TEXT("WidgetClass = %s"),
-        WidgetClass ? *WidgetClass->GetName() : TEXT("NULL"));
+    UE_LOG(LogTemp, Warning, TEXT("ReplaceWidget: World = %s, IsValid = %d"),
+        *GetNameSafe(World),
+        IsValid(World));
+
+    UE_LOG(LogTemp, Warning, TEXT("ReplaceWidget: WidgetClass = %s, IsValid = %d"),
+        *GetNameSafe(WidgetClass),
+        IsValid(WidgetClass));
+
     CurrentWidget = CreateWidget<UUserWidget>(World, WidgetClass);
     if (CurrentWidget)
     {
@@ -78,20 +75,54 @@ static void ReplaceWidget(UWorld* World, UUserWidget*& CurrentWidget, const TCHA
 
 void UUIManager::ShowStartMenu()
 {
-    ReplaceWidget(CachedWorld, CurrentWidget, TEXT("/Game/Widgets/BP_MainMenuWidget.BP_MainMenuWidget_C"));
+    ReplaceWidget(CurrentWidget, TEXT("/Game/Widgets/BP_MainMenuWidget.BP_MainMenuWidget_C"), GetWorld());
 }
 
 void UUIManager::ShowHUD()
 {
-    ReplaceWidget(CachedWorld, CurrentWidget, TEXT("/Game/Widgets/BP_PlayerHUDWidget.BP_PlayerHUDWidget_C"));
+    ReplaceWidget(CurrentWidget, TEXT("/Game/Widgets/BP_PlayerHUDWidget.BP_PlayerHUDWidget_C"), GetWorld());
 }
 
 void UUIManager::ShowPauseMenu()
 {
-    ReplaceWidget(CachedWorld, CurrentWidget, TEXT("/Game/Widgets/BP_PauseMenuWidget.BP_PauseMenuWidget_C"));
+    ReplaceWidget(CurrentWidget, TEXT("/Game/Widgets/BP_PauseMenuWidget.BP_PauseMenuWidget_C"), GetWorld());
 }
 
 void UUIManager::ShowGameOverMenu()
 {
-    ReplaceWidget(CachedWorld, CurrentWidget, TEXT("/Game/Widgets/BP_GameOverMenuWidget.BP_GameOverMenuWidget_C"));
+    ReplaceWidget(CurrentWidget, TEXT("/Game/Widgets/BP_GameOverMenuWidget.BP_GameOverMenuWidget_C"), GetWorld());
+}
+
+void UUIManager::ShowLevelCompleteMenu()
+{
+    ReplaceWidget(CurrentWidget, TEXT("/Game/Widgets/BP_LevelCompleteWidget.BP_LevelCompleteWidget_C"), GetWorld());
+}
+
+void UUIManager::ProcessStateChange()
+{
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        UE_LOG(LogTemp, Error, TEXT("ProcessStateChange: World invalid"));
+        return;
+    }
+
+    switch (PendingState)
+    {
+    case EGameState::Start:
+        ShowStartMenu();
+        break;
+    case EGameState::Gameplay:
+        ShowHUD();
+        break;
+    case EGameState::Pause:
+        ShowPauseMenu();
+        break;
+    case EGameState::GameOver:
+        ShowGameOverMenu();
+        break;
+    case EGameState::LevelComplete:
+        ShowLevelCompleteMenu();
+        break;
+    }
 }

@@ -44,6 +44,9 @@ public:
 	void GameOver();
 
 	UFUNCTION(BlueprintCallable, Category = "Menus")
+	void LevelComplete();
+
+	UFUNCTION(BlueprintCallable, Category = "Menus")
 	void RestartGame();
 
 	APlayerController* GetPlayerController();

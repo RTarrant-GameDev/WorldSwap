@@ -11,7 +11,8 @@ enum class EGameState : uint8
     Start = 1 UMETA(DisplayName = "Start"),
     Gameplay = 2 UMETA(DisplayName = "Gameplay"),
     Pause = 3 UMETA(DisplayName = "Pause"),
-    GameOver = 4 UMETA(DisplayName = "GameOver")
+    GameOver = 4 UMETA(DisplayName = "GameOver"),
+    LevelComplete = 5 UMETA(DisplayName = "LevelComplete")
 };
 
 // -------------------------------

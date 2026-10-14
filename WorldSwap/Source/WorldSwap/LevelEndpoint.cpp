@@ -32,7 +32,10 @@ void ALevelEndpoint::OverlapBegin(
 	bool bFromSweep, 
 	const FHitResult& SweepResult
 ){
-	ALevelEndpoint::Collide();
+	if (OtherActor && OtherActor->ActorHasTag("Player"))
+	{
+		ALevelEndpoint::Collide();
+	}
 }
 
 // Called every frame
@@ -44,8 +47,7 @@ void ALevelEndpoint::Tick(float DeltaTime)
 
 void ALevelEndpoint::Collide()
 {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 25.0f, FColor::Blue, TEXT("Level completed!"));
-	}
+	Cast<AWorldSwapGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->LevelComplete();
+
 }
 

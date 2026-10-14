@@ -95,6 +95,24 @@ void AWorldSwapGameMode::GameOver()
 	}
 }
 
+void AWorldSwapGameMode::LevelComplete()
+{
+	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
+
+	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(5);
+
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 25.0f, FColor::Blue, TEXT("Level completed!"));
+	}
+
+	APlayerController* PC = GetPlayerController();
+	if (PC)
+	{
+		PC->bShowMouseCursor = true;
+		PC->SetPause(true);
+	}
+}
+
 void AWorldSwapGameMode::RestartGame()
 {
 	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());

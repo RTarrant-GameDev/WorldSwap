@@ -21,14 +21,16 @@ public:
     UFUNCTION()
     void HandleStateChanged(EGameState NewState);
 private:
+    void ProcessStateChange();
 
     void ShowStartMenu();
     void ShowHUD();
     void ShowPauseMenu();
     void ShowGameOverMenu();
+    void ShowLevelCompleteMenu();
 
     UPROPERTY()
     UUserWidget* CurrentWidget = nullptr;
 
-    UWorld* CachedWorld = nullptr;
+    EGameState PendingState;
 };

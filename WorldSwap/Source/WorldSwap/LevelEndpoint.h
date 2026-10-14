@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/BoxComponent.h"
+#include "WorldSwapGameMode.h"
 #include "GameFramework/Actor.h"
 #include "LevelEndpoint.generated.h"
 
@@ -29,8 +30,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-protected:
+	
 	UFUNCTION()
 	void Collide();
 };
