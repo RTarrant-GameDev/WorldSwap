@@ -29,6 +29,8 @@ private:
     void ShowGameOverMenu();
     void ShowLevelCompleteMenu();
 
+    virtual UWorld* GetWorld() const override;
+
     UPROPERTY()
     UUserWidget* CurrentWidget = nullptr;
 

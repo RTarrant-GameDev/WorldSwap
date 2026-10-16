@@ -11,10 +11,45 @@ AWorldSwapGameMode::AWorldSwapGameMode()
 	// stub
 }
 
+void AWorldSwapGameMode::HandlePlayerDeath()
+{
+	UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
+
+	SubtractFromLivesCount();
+
+	if (GI->GetLivesCount() <= 0)
+	{
+		GameOver();
+	}
+	else
+	{
+		RestartGame(false);
+	}
+}
+
+void AWorldSwapGameMode::SetLivesCount(int32 LivesCountToSet)
+{
+	GetGameInstance<UWorldSwapGameInstance>()->SetLivesCount(LivesCountToSet);
+}
+
+void AWorldSwapGameMode::AddToLivesCount()
+{
+	GetGameInstance<UWorldSwapGameInstance>()->AddToLivesCount();;
+}
+
+void AWorldSwapGameMode::SubtractFromLivesCount()
+{
+	GetGameInstance<UWorldSwapGameInstance>()->SubtractFromLivesCount();
+}
+
+int32 AWorldSwapGameMode::GetLivesCount()
+{
+	return GetGameInstance<UWorldSwapGameInstance>()->LivesCount;
+}
+
 void AWorldSwapGameMode::SetWorldSwapSet(int32 swapState)
 {
 	WorldSwapState = swapState;
-	GEngine->AddOnScreenDebugMessage(-1, 25.0f, FColor::Blue, FString::Printf(TEXT("WorldSwapState: %s"), *FString::FromInt(WorldSwapState)));
 }
 
 int32 AWorldSwapGameMode::GetWorldSwapState()
@@ -25,6 +60,8 @@ int32 AWorldSwapGameMode::GetWorldSwapState()
 void AWorldSwapGameMode::StartGame()
 {
 	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
+
+	GI->LivesCount = 3; // Reset lives ONLY here
 
 	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(2);
 
@@ -70,11 +107,12 @@ void AWorldSwapGameMode::ReturnToMainMenu()
 
 	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(1);
 	APlayerController* PC = GetPlayerController();
-	if (PC)
-	{
-		PC->bShowMouseCursor = true;
-		PC->SetPause(true);
-	}
+	SetLivesCount(3);
+	GI->bRestartAfterReload = false;
+	UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("/Game/FirstLevel")));
+	
+	PC->bShowMouseCursor = true;
+	PC->SetPause(false);
 }
 
 void AWorldSwapGameMode::GameOver()
@@ -113,20 +151,25 @@ void AWorldSwapGameMode::LevelComplete()
 	}
 }
 
-void AWorldSwapGameMode::RestartGame()
+void AWorldSwapGameMode::RestartGame(bool wasGameOver)
 {
-	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
+	if (!wasGameOver) {
+		APlayerController* PC = GetPlayerController();
+		if (!PC) return;
 
-	FName CurrentLevel = *GetWorld()->GetMapName();
-	UGameplayStatics::OpenLevel(GetWorld(), CurrentLevel);
-	
-	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(2); 
+		APawn* Pawn = PC->GetPawn();
+		if (Pawn)
+		{
+			Pawn->Destroy();
+		}
 
-	APlayerController* PC = GetPlayerController();
-	if (PC)
-	{
-		PC->bShowMouseCursor = false;
-		PC->SetPause(false);
+		RestartPlayer(PC); // built-in UE respawn
+	}
+	else {
+		UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
+		SetLivesCount(3);
+		GI->bRestartAfterReload = true;
+		UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("/Game/FirstLevel")));
 	}
 }
 
@@ -139,33 +182,54 @@ void AWorldSwapGameMode::InitGame(const FString& MapName, const FString& Options
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
 
-	// Get the persistent Game Instance
+	UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
+}
+
+void AWorldSwapGameMode::BeginPlay()
+{
+	Super::BeginPlay();
 
 	UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
+	if (!GI)
+		return;
 
-	UGameStateSubSystem* SM = GetGameInstance()->GetSubsystem<UGameStateSubSystem>();
-	if (GI)
+	UWorld* World = GetWorld();
+	if (!World)
+		return;
+
+	// Ensure UIManager exists and is initialized
+	if (!GI->GetUIManager())
 	{
-		if (!GI->bHasInitializedFirstTimeSetup)
+		GI->CreateUIManager(World);
+	}
+	else
+	{
+		GI->GetUIManager()->Initialize(World);
+	}
+
+	UGameStateSubSystem* SM = GI->GetSubsystem<UGameStateSubSystem>();
+	if (!SM)
+		return;
+
+	// FIRST TIME EVER → MAIN MENU
+	if (!GI->bHasInitializedFirstTimeSetup)
+	{
+		SetLivesCount(3);
+		SM->SetGameState(1);
+		APlayerController* PC = GetPlayerController();
+		if (PC)
 		{
-			if (!GI->GetUIManager())
-			{
-				GI->CreateUIManager(GetWorld());
-			}
-
-			GI->GetUIManager()->Initialize(GetWorld());
-			// ─── RUN YOUR ONE-TIME GLOBAL SETUP LOGIC HERE ───
-			UE_LOG(LogTemp, Log, TEXT("Running global setup for the absolute first time!"));
-
-			SM->SetGameState(1);
-
-			// Mark it as done so it never triggers again during this session
-			GI->bHasInitializedFirstTimeSetup = true;
+			PC->bShowMouseCursor = true;
 		}
-		else
-		{
-			UE_LOG(LogTemp, Log, TEXT("Level reloaded, skipping one-time global setup."));
-			SM->SetGameState(2);
-		}
+		GI->bHasInitializedFirstTimeSetup = true;
+		return;
+	}
+
+	// AFTER RESTART → GAMEPLAY
+	if (GI->bRestartAfterReload)
+	{
+		SM->SetGameState(2); // Gameplay
+		GI->bRestartAfterReload = false;
+		return;
 	}
 }

@@ -31,10 +31,9 @@ void AFallBoundary::OverlapBegin(
 	bool bFromSweep, const 
 	FHitResult& SweepResult
 ){
-
 	if (OtherActor && OtherActor->ActorHasTag("Player"))
 	{
-		AFallBoundary::Collide();
+		Collide();
 	}
 }
 
@@ -47,6 +46,10 @@ void AFallBoundary::Tick(float DeltaTime)
 
 void AFallBoundary::Collide()
 {
-	Cast<AWorldSwapGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->GameOver();
+	AWorldSwapGameMode* GM = Cast<AWorldSwapGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GM)
+	{
+		GM->HandlePlayerDeath();
+	}
 }
 

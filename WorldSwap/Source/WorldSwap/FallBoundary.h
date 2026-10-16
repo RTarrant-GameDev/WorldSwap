@@ -20,6 +20,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	class UBoxComponent* BoxComponent;
 
+	UPROPERTY()
+	bool bHasTriggered = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

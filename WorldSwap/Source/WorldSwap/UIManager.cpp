@@ -8,28 +8,35 @@
 
 void UUIManager::Initialize(UWorld* World)
 {
+    UE_LOG(LogTemp, Warning, TEXT("UIManager::Initialize, World = %s"), *GetNameSafe(World));
+
     UGameInstance* GI = UGameplayStatics::GetGameInstance(World);
     if (!GI)
     {
+        UE_LOG(LogTemp, Error, TEXT("UIManager::Initialize: No GameInstance"));
         return;
     }
 
     UGameStateSubSystem* SM = GI->GetSubsystem<UGameStateSubSystem>();
     if (!SM)
     {
+        UE_LOG(LogTemp, Error, TEXT("UIManager::Initialize: No GameStateSubSystem"));
         return;
     }
 
+    UE_LOG(LogTemp, Warning, TEXT("UIManager: binding to OnGameplayStateChanged"));
     SM->OnGameplayStateChanged.AddDynamic(this, &UUIManager::HandleStateChanged);
 }
 
 void UUIManager::HandleStateChanged(EGameState NewState)
 {
+    UE_LOG(LogTemp, Warning, TEXT("UIManager::HandleStateChanged: NewState = %d"), (int32)NewState);
     PendingState = NewState;
 
     UWorld* World = GetWorld();
     if (!World)
     {
+        UE_LOG(LogTemp, Error, TEXT("HandleStateChanged: World invalid"));
         return;
     }
 
@@ -38,14 +45,6 @@ void UUIManager::HandleStateChanged(EGameState NewState)
 
 static void ReplaceWidget(UUserWidget*& CurrentWidget, const TCHAR* Path, UWorld* World)
 {
-    ULocalPlayer* LP = World->GetFirstLocalPlayerFromController();
-    if (!LP)
-    {
-        UE_LOG(LogTemp, Error, TEXT("ReplaceWidget: No LocalPlayer yet — deferring"));
-        return;
-    }
-
-
     if (CurrentWidget)
     {
         CurrentWidget->RemoveFromParent();
@@ -100,6 +99,8 @@ void UUIManager::ShowLevelCompleteMenu()
 
 void UUIManager::ProcessStateChange()
 {
+    UE_LOG(LogTemp, Warning, TEXT("UIManager::ProcessStateChange: PendingState = %d"), (int32)PendingState);
+
     UWorld* World = GetWorld();
     if (!World)
     {
@@ -110,9 +111,11 @@ void UUIManager::ProcessStateChange()
     switch (PendingState)
     {
     case EGameState::Start:
+        UE_LOG(LogTemp, Warning, TEXT("Showing Start Menu"));
         ShowStartMenu();
         break;
     case EGameState::Gameplay:
+        UE_LOG(LogTemp, Warning, TEXT("Showing HUD"));
         ShowHUD();
         break;
     case EGameState::Pause:
@@ -125,4 +128,14 @@ void UUIManager::ProcessStateChange()
         ShowLevelCompleteMenu();
         break;
     }
+}
+
+UWorld* UUIManager::GetWorld() const
+{
+    if (const UObject* Outer = GetOuter())
+    {
+        return Outer->GetWorld();
+    }
+
+    return nullptr;
 }

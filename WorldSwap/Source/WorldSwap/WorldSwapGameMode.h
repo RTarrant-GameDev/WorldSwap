@@ -23,6 +23,17 @@ public:
 	int32 WorldSwapState; //Set to 0/WorldSwapState "1" by default
 
 public:
+	void HandlePlayerDeath();
+#pragma region Lives
+	UFUNCTION(BlueprintCallable, Category = "Lives")
+	void SetLivesCount(int32 LivesCountToSet);
+
+	void AddToLivesCount();
+	void SubtractFromLivesCount();
+
+	UFUNCTION(BlueprintCallable, Category = "Lives")
+	int32 GetLivesCount();
+#pragma endregion 
 	UFUNCTION(BlueprintCallable, Category = "WorldSwap")
 	void SetWorldSwapSet(int32 swapState);
 
@@ -47,12 +58,14 @@ public:
 	void LevelComplete();
 
 	UFUNCTION(BlueprintCallable, Category = "Menus")
-	void RestartGame();
+	void RestartGame(bool wasGameOver);
 
 	APlayerController* GetPlayerController();
 
 protected:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+
+	virtual void BeginPlay() override;
 };
 
 
