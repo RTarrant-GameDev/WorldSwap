@@ -67,6 +67,12 @@
     <ClInclude Include="..\..\Source\WorldSwap\LevelPlatform_MovementComponent.h">
       <Filter>Source\WorldSwap</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\TimerObject.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\TimerObject.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\WorldSwap\UIManager.cpp">
       <Filter>Source\WorldSwap</Filter>
     </ClCompile>

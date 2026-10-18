@@ -8,8 +8,6 @@
 void UWorldSwapGameInstance::Init()
 {
     Super::Init();
-
-    UE_LOG(LogTemp, Warning, TEXT("GameInstance::Init called"));
 }
 
 void UWorldSwapGameInstance::CreateUIManager(UWorld* World)

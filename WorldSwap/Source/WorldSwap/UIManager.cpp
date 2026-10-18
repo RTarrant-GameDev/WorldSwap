@@ -8,8 +8,6 @@
 
 void UUIManager::Initialize(UWorld* World)
 {
-    UE_LOG(LogTemp, Warning, TEXT("UIManager::Initialize, World = %s"), *GetNameSafe(World));
-
     UGameInstance* GI = UGameplayStatics::GetGameInstance(World);
     if (!GI)
     {
@@ -23,14 +21,11 @@ void UUIManager::Initialize(UWorld* World)
         UE_LOG(LogTemp, Error, TEXT("UIManager::Initialize: No GameStateSubSystem"));
         return;
     }
-
-    UE_LOG(LogTemp, Warning, TEXT("UIManager: binding to OnGameplayStateChanged"));
     SM->OnGameplayStateChanged.AddDynamic(this, &UUIManager::HandleStateChanged);
 }
 
 void UUIManager::HandleStateChanged(EGameState NewState)
 {
-    UE_LOG(LogTemp, Warning, TEXT("UIManager::HandleStateChanged: NewState = %d"), (int32)NewState);
     PendingState = NewState;
 
     UWorld* World = GetWorld();
@@ -56,14 +51,6 @@ static void ReplaceWidget(UUserWidget*& CurrentWidget, const TCHAR* Path, UWorld
     {
         return;
     }
-
-    UE_LOG(LogTemp, Warning, TEXT("ReplaceWidget: World = %s, IsValid = %d"),
-        *GetNameSafe(World),
-        IsValid(World));
-
-    UE_LOG(LogTemp, Warning, TEXT("ReplaceWidget: WidgetClass = %s, IsValid = %d"),
-        *GetNameSafe(WidgetClass),
-        IsValid(WidgetClass));
 
     CurrentWidget = CreateWidget<UUserWidget>(World, WidgetClass);
     if (CurrentWidget)
@@ -97,9 +84,31 @@ void UUIManager::ShowLevelCompleteMenu()
     ReplaceWidget(CurrentWidget, TEXT("/Game/Widgets/BP_LevelCompleteWidget.BP_LevelCompleteWidget_C"), GetWorld());
 }
 
+void UUIManager::SetUIOnlyMode()
+{
+    APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+    PC->DisableInput(PC);
+    PC->SetShowMouseCursor(true);
+
+    FInputModeUIOnly InputMode;
+    InputMode.SetWidgetToFocus(CurrentWidget->TakeWidget());
+    PC->SetInputMode(InputMode);
+}
+
+void UUIManager::SetGameOnlyMode()
+{
+    APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+    if (!PC) return;
+
+    PC->EnableInput(PC);
+    PC->SetShowMouseCursor(false);
+
+    FInputModeGameOnly InputMode;
+    PC->SetInputMode(InputMode);
+}
+
 void UUIManager::ProcessStateChange()
 {
-    UE_LOG(LogTemp, Warning, TEXT("UIManager::ProcessStateChange: PendingState = %d"), (int32)PendingState);
 
     UWorld* World = GetWorld();
     if (!World)
@@ -111,21 +120,24 @@ void UUIManager::ProcessStateChange()
     switch (PendingState)
     {
     case EGameState::Start:
-        UE_LOG(LogTemp, Warning, TEXT("Showing Start Menu"));
         ShowStartMenu();
+        SetUIOnlyMode();
         break;
     case EGameState::Gameplay:
-        UE_LOG(LogTemp, Warning, TEXT("Showing HUD"));
+        SetGameOnlyMode();
         ShowHUD();
         break;
     case EGameState::Pause:
         ShowPauseMenu();
+        SetUIOnlyMode();
         break;
     case EGameState::GameOver:
         ShowGameOverMenu();
+        SetUIOnlyMode();
         break;
     case EGameState::LevelComplete:
         ShowLevelCompleteMenu();
+        SetUIOnlyMode();
         break;
     }
 }

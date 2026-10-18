@@ -59,46 +59,30 @@ int32 AWorldSwapGameMode::GetWorldSwapState()
 
 void AWorldSwapGameMode::StartGame()
 {
+	TimerRef->StartTimer();
 	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
 
 	GI->LivesCount = 3; // Reset lives ONLY here
 
 	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(2);
-
-	APlayerController* PC = GetPlayerController();
-	if (PC)
-	{
-		PC->bShowMouseCursor = false;
-		PC->SetPause(false);
-	}
 }
 
 void AWorldSwapGameMode::PauseGame()
 {
+	TimerRef->PauseTimer();
+
 	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
 
 	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(3);
-
-	APlayerController* PC = GetPlayerController();
-	if (PC)
-	{
-		PC->bShowMouseCursor = true;
-		PC->SetPause(true);
-	}
 }
 
 void AWorldSwapGameMode::ResumeGame()
 {
+	TimerRef->UnpauseTimer();
+
 	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
 
 	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(2);
-
-	APlayerController* PC = GetPlayerController();
-	if (PC)
-	{
-		PC->bShowMouseCursor = false;
-		PC->SetPause(false);
-	}
 }
 
 void AWorldSwapGameMode::ReturnToMainMenu()
@@ -106,48 +90,28 @@ void AWorldSwapGameMode::ReturnToMainMenu()
 	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
 
 	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(1);
-	APlayerController* PC = GetPlayerController();
 	SetLivesCount(3);
 	GI->bRestartAfterReload = false;
 	UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("/Game/FirstLevel")));
-	
-	PC->bShowMouseCursor = true;
-	PC->SetPause(false);
 }
 
 void AWorldSwapGameMode::GameOver()
 {
 	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
-
 	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(4);
-
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 25.0f, FColor::Blue, TEXT("Congratulations, you're dead"));
-	}
-
-	APlayerController* PC = GetPlayerController();
-	if (PC)
-	{
-		PC->bShowMouseCursor = true;
-		PC->SetPause(true);
-	}
+	
+	TimerRef->ResetTimer();
 }
 
 void AWorldSwapGameMode::LevelComplete()
 {
+	TimerRef->ResetTimer();
 	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
 
 	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(5);
 
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 25.0f, FColor::Blue, TEXT("Level completed!"));
-	}
-
-	APlayerController* PC = GetPlayerController();
-	if (PC)
-	{
-		PC->bShowMouseCursor = true;
-		PC->SetPause(true);
 	}
 }
 
@@ -170,6 +134,7 @@ void AWorldSwapGameMode::RestartGame(bool wasGameOver)
 		SetLivesCount(3);
 		GI->bRestartAfterReload = true;
 		UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("/Game/FirstLevel")));
+		GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(2);
 	}
 }
 
@@ -188,6 +153,12 @@ void AWorldSwapGameMode::InitGame(const FString& MapName, const FString& Options
 void AWorldSwapGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	TimerRef = Cast<ATimerObject>(UGameplayStatics::GetActorOfClass(this, ATimerObject::StaticClass()));
+	if (!TimerRef)
+	{
+		UE_LOG(LogTemp, Error, TEXT("TimerRef is NULL in BeginPlay!"));
+	}
 
 	UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
 	if (!GI)
@@ -229,6 +200,11 @@ void AWorldSwapGameMode::BeginPlay()
 	if (GI->bRestartAfterReload)
 	{
 		SM->SetGameState(2); // Gameplay
+
+		// Now the new TimerRef is valid → start fresh
+		TimerRef->ResetTimer();
+		TimerRef->StartTimer();
+
 		GI->bRestartAfterReload = false;
 		return;
 	}

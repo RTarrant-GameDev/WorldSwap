@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TimerObject.h"
 #include "GameFramework/GameModeBase.h"
 #include "WorldSwapGameMode.generated.h"
 
@@ -61,6 +62,9 @@ public:
 	void RestartGame(bool wasGameOver);
 
 	APlayerController* GetPlayerController();
+
+	UPROPERTY()
+	ATimerObject* TimerRef;
 
 protected:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;

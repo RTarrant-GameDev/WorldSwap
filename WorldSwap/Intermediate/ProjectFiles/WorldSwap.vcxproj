@@ -280,6 +280,10 @@
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClInclude Include="..\..\Source\WorldSwap\LevelPlatform_MovementComponent.h"/>
+    <ClCompile Include="..\..\Source\WorldSwap\TimerObject.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\TimerObject.h"/>
     <ClCompile Include="..\..\Source\WorldSwap\UIManager.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>

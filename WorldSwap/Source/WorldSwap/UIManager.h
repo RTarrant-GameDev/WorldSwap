@@ -29,6 +29,9 @@ private:
     void ShowGameOverMenu();
     void ShowLevelCompleteMenu();
 
+    void SetUIOnlyMode();
+    void SetGameOnlyMode();
+
     virtual UWorld* GetWorld() const override;
 
     UPROPERTY()
