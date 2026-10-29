@@ -2,6 +2,7 @@
 
 
 #include "LevelEndpoint.h"
+#include "WorldSwapGameMode.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -22,6 +23,7 @@ void ALevelEndpoint::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SetActive(false);
 }
 
 void ALevelEndpoint::OverlapBegin(
@@ -32,6 +34,10 @@ void ALevelEndpoint::OverlapBegin(
 	bool bFromSweep, 
 	const FHitResult& SweepResult
 ){
+	if (!bIsActive) {
+		return;
+	}
+
 	if (OtherActor && OtherActor->ActorHasTag("Player"))
 	{
 		ALevelEndpoint::Collide();
@@ -49,5 +55,15 @@ void ALevelEndpoint::Collide()
 {
 	Cast<AWorldSwapGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->LevelComplete();
 
+}
+
+void ALevelEndpoint::SetActive(bool bActive)
+{
+	bIsActive = bActive;
+
+	BoxComponent->SetCollisionEnabled(
+		bActive ?
+		ECollisionEnabled::QueryOnly :
+		ECollisionEnabled::NoCollision);
 }
 

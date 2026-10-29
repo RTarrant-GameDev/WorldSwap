@@ -78037,6 +78037,12 @@
     </ClCompile>
     <ClInclude Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabSettingsCustomization.h"/>
     <ClInclude Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabSettingsWindow.h"/>
+    <ClCompile Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabWebLog.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_788)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_788)</ForcedIncludeFiles>
+      <AdditionalOptions>$(ClCompile_AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClInclude Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabWebLog.h"/>
     <ClCompile Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabWorkflowFactoryRegistry.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_788)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_788)</ForcedIncludeFiles>

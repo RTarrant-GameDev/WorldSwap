@@ -2,6 +2,7 @@
 
 #include "WorldSwapGameMode.h"
 #include "WorldSwapGameInstance.h"
+#include "LevelCollectable.h"
 #include "UIManager.h"
 #include "GameStateSubSystem.h"
 #include "Kismet/GameplayStatics.h"
@@ -13,11 +14,9 @@ AWorldSwapGameMode::AWorldSwapGameMode()
 
 void AWorldSwapGameMode::HandlePlayerDeath()
 {
-	UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
-
 	SubtractFromLivesCount();
 
-	if (GI->GetLivesCount() <= 0)
+	if (GetWSGI()->GetLivesCount() <= 0)
 	{
 		GameOver();
 	}
@@ -27,29 +26,26 @@ void AWorldSwapGameMode::HandlePlayerDeath()
 	}
 }
 
-void AWorldSwapGameMode::SetLivesCount(int32 LivesCountToSet)
-{
-	GetGameInstance<UWorldSwapGameInstance>()->SetLivesCount(LivesCountToSet);
-}
-
 void AWorldSwapGameMode::AddToLivesCount()
 {
-	GetGameInstance<UWorldSwapGameInstance>()->AddToLivesCount();;
+	GetWSGI()->AddToLivesCount();
 }
 
 void AWorldSwapGameMode::SubtractFromLivesCount()
 {
-	GetGameInstance<UWorldSwapGameInstance>()->SubtractFromLivesCount();
+	GetWSGI()->SubtractFromLivesCount();
 }
 
 int32 AWorldSwapGameMode::GetLivesCount()
 {
-	return GetGameInstance<UWorldSwapGameInstance>()->LivesCount;
+	return GetWSGI()->GetLivesCount();
 }
 
-void AWorldSwapGameMode::SetWorldSwapSet(int32 swapState)
+void AWorldSwapGameMode::SetWorldSwapState(int32 swapState)
 {
 	WorldSwapState = swapState;
+
+	ResetWorldSwapTimer();
 }
 
 int32 AWorldSwapGameMode::GetWorldSwapState()
@@ -60,55 +56,69 @@ int32 AWorldSwapGameMode::GetWorldSwapState()
 void AWorldSwapGameMode::StartGame()
 {
 	TimerRef->StartTimer();
-	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
+	ScheduleNextWorldSwap();
 
-	GI->LivesCount = 3; // Reset lives ONLY here
-
-	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(2);
+	GetWSGI()->SetLivesCount(3); // Reset lives ONLY here
+	if (UGameStateSubSystem* SM = GetGameStateSM())
+	{
+		SM->SetGameState(EGameState::Gameplay);
+	}
 }
 
 void AWorldSwapGameMode::PauseGame()
 {
 	TimerRef->PauseTimer();
 
-	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
+	GetWorld()->GetTimerManager().PauseTimer(
+		WorldSwapTimerHandle);
 
-	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(3);
+	if (UGameStateSubSystem* SM = GetGameStateSM())
+	{
+		SM->SetGameState(EGameState::Pause);
+	}
 }
 
 void AWorldSwapGameMode::ResumeGame()
 {
 	TimerRef->UnpauseTimer();
-
-	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
-
-	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(2);
+	GetWorld()->GetTimerManager().UnPauseTimer(
+		WorldSwapTimerHandle);
+	if (UGameStateSubSystem* SM = GetGameStateSM())
+	{
+		SM->SetGameState(EGameState::Gameplay);
+	}
 }
 
 void AWorldSwapGameMode::ReturnToMainMenu()
 {
-	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
+	GetWorld()->GetTimerManager().ClearTimer(
+		WorldSwapTimerHandle);
 
-	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(1);
-	SetLivesCount(3);
-	GI->bRestartAfterReload = false;
-	UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("/Game/FirstLevel")));
+	GetWSGI()->LoadMainMenu();
 }
 
 void AWorldSwapGameMode::GameOver()
 {
-	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
-	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(4);
+	if (UGameStateSubSystem* SM = GetGameStateSM())
+	{
+		SM->SetGameState(EGameState::GameOver);
+	}
 	
 	TimerRef->ResetTimer();
+	GetWorld()->GetTimerManager().ClearTimer(
+		WorldSwapTimerHandle);
 }
 
 void AWorldSwapGameMode::LevelComplete()
 {
 	TimerRef->ResetTimer();
-	UWorldSwapGameInstance* GI = Cast<UWorldSwapGameInstance>(GetGameInstance());
+	GetWorld()->GetTimerManager().ClearTimer(
+		WorldSwapTimerHandle);
 
-	GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(5);
+	if (UGameStateSubSystem* SM = GetGameStateSM())
+	{
+		SM->SetGameState(EGameState::LevelComplete);
+	}
 
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 25.0f, FColor::Blue, TEXT("Level completed!"));
@@ -130,11 +140,13 @@ void AWorldSwapGameMode::RestartGame(bool wasGameOver)
 		RestartPlayer(PC); // built-in UE respawn
 	}
 	else {
-		UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
-		SetLivesCount(3);
-		GI->bRestartAfterReload = true;
-		UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("/Game/FirstLevel")));
-		GI->GetSubsystem<UGameStateSubSystem>()->SetGameState(2);
+		GetWSGI()->SetLivesCount(3);
+		GetWSGI()->bRestartAfterReload = true;
+		UGameplayStatics::OpenLevel(GetWorld(), FName(GetWorld()->GetMapName()));
+		if (UGameStateSubSystem* SM = GetGameStateSM())
+		{
+			SM->SetGameState(EGameState::Gameplay);
+		}
 	}
 }
 
@@ -146,66 +158,209 @@ APlayerController* AWorldSwapGameMode::GetPlayerController()
 void AWorldSwapGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
-
-	UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
 }
 
 void AWorldSwapGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UE_LOG(LogTemp, Warning,
+		TEXT("MAP = %s"),
+		*GetWorld()->GetMapName());
+
+	InitTimer();
+	InitCollectables();
+	InitUI();
+	InitGameState();
+	StartGame();
+}
+
+UWorldSwapGameInstance* AWorldSwapGameMode::GetWSGI() const
+{
+	return Cast<UWorldSwapGameInstance>(GetGameInstance());
+}
+
+UGameStateSubSystem* AWorldSwapGameMode::GetGameStateSM() const
+{
+	if (UWorldSwapGameInstance* GI = GetWSGI())
+	{
+		return GI->GetSubsystem<UGameStateSubSystem>();
+	}
+
+	return nullptr;
+}
+
+void AWorldSwapGameMode::InitCollectables()
+{
+	LevelEndpointRef =
+		Cast<ALevelEndpoint>(
+			UGameplayStatics::GetActorOfClass(
+				GetWorld(),
+				ALevelEndpoint::StaticClass()));
+
+	if (LevelEndpointRef) {
+		TArray<AActor*> Collectables;
+
+		UGameplayStatics::GetAllActorsOfClass(
+			GetWorld(),
+			ALevelCollectable::StaticClass(),
+			Collectables);
+
+		for (AActor* Actor : Collectables)
+		{
+			ALevelCollectable* Collectable = Cast<ALevelCollectable>(Actor);
+
+			if (!Collectable)
+			{
+				continue;
+			}
+
+			if (Collectable->CollectableType == ECollectableType::Key)
+			{
+				TotalCollectablesRequired++;
+			}
+		}
+
+		CurrentCollectablesCollected = 0;
+
+		if (TotalCollectablesRequired == 0)
+		{
+			if (LevelEndpointRef)
+			{
+				LevelEndpointRef->SetActive(true);
+			}
+		}
+	}
+
+	UE_LOG(
+		LogTemp,
+		Warning,
+		TEXT("Total keys required: %d"),
+		TotalCollectablesRequired);
+}
+
+void AWorldSwapGameMode::InitTimer()
+{
 	TimerRef = Cast<ATimerObject>(UGameplayStatics::GetActorOfClass(this, ATimerObject::StaticClass()));
 	if (!TimerRef)
 	{
 		UE_LOG(LogTemp, Error, TEXT("TimerRef is NULL in BeginPlay!"));
 	}
+}
 
-	UWorldSwapGameInstance* GI = GetGameInstance<UWorldSwapGameInstance>();
-	if (!GI)
-		return;
-
+void AWorldSwapGameMode::InitUI()
+{
 	UWorld* World = GetWorld();
 	if (!World)
 		return;
 
 	// Ensure UIManager exists and is initialized
-	if (!GI->GetUIManager())
+	if (!GetWSGI()->GetUIManager())
 	{
-		GI->CreateUIManager(World);
+		GetWSGI()->CreateUIManager(World);
 	}
 	else
 	{
-		GI->GetUIManager()->Initialize(World);
+		GetWSGI()->GetUIManager()->Initialize(World);
+	}
+}
+
+void AWorldSwapGameMode::InitGameState()
+{
+	if (UGameStateSubSystem* SM = GetGameStateSM())
+	{
+		SM->SetGameState(EGameState::Gameplay);
+	}
+}
+
+void AWorldSwapGameMode::ScheduleNextWorldSwap()
+{
+	const int32 RandomDelay =
+		FMath::RandRange(
+			MinWorldSwapTime,
+			MaxWorldSwapTime);
+
+	CurrentWorldSwapDuration =
+		FMath::RandRange(5, 15);
+
+	WorldSwapTimeRemaining =
+		CurrentWorldSwapDuration;
+
+	GetWorld()->GetTimerManager().SetTimer(
+		WorldSwapTimerHandle,
+		this,
+		&AWorldSwapGameMode::HandleWorldSwapTimerExpired,
+		CurrentWorldSwapDuration,
+		false);
+}
+
+void AWorldSwapGameMode::HandleWorldSwapTimerExpired()
+{
+	const int32 NewState =
+		(WorldSwapState == 0)
+		? 1
+		: 0;
+
+	SetWorldSwapState(NewState);
+
+	ScheduleNextWorldSwap();
+}
+
+void AWorldSwapGameMode::UpdateWorldSwapCountdown()
+{
+	WorldSwapTimeRemaining =
+		GetWorld()->GetTimerManager().GetTimerRemaining(
+			WorldSwapTimerHandle);
+
+	if (WorldSwapTimeRemaining < 0.f)
+	{
+		WorldSwapTimeRemaining = 0.f;
+	}
+}
+
+int32 AWorldSwapGameMode::GetWorldSwapTimeRemaining() const
+{
+	if (!GetWorld())
+	{
+		return 0;
 	}
 
-	UGameStateSubSystem* SM = GI->GetSubsystem<UGameStateSubSystem>();
-	if (!SM)
-		return;
+	const float Remaining =
+		GetWorld()->GetTimerManager().GetTimerRemaining(
+			WorldSwapTimerHandle);
 
-	// FIRST TIME EVER → MAIN MENU
-	if (!GI->bHasInitializedFirstTimeSetup)
+	return FMath::Max(0, FMath::CeilToInt(Remaining));
+}
+
+float AWorldSwapGameMode::GetWorldSwapDuration() const
+{
+	return CurrentWorldSwapDuration;
+}
+
+void AWorldSwapGameMode::ResetWorldSwapTimer()
+{
+	GetWorld()->GetTimerManager().ClearTimer(
+		WorldSwapTimerHandle);
+
+	ScheduleNextWorldSwap();
+}
+
+void AWorldSwapGameMode::CollectablePickedUp()
+{
+	CurrentCollectablesCollected++;
+
+	if (CurrentCollectablesCollected >= TotalCollectablesRequired)
 	{
-		SetLivesCount(3);
-		SM->SetGameState(1);
-		APlayerController* PC = GetPlayerController();
-		if (PC)
+		if (LevelEndpointRef)
 		{
-			PC->bShowMouseCursor = true;
+			LevelEndpointRef->SetActive(true);
 		}
-		GI->bHasInitializedFirstTimeSetup = true;
-		return;
 	}
+}
 
-	// AFTER RESTART → GAMEPLAY
-	if (GI->bRestartAfterReload)
-	{
-		SM->SetGameState(2); // Gameplay
+void AWorldSwapGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
 
-		// Now the new TimerRef is valid → start fresh
-		TimerRef->ResetTimer();
-		TimerRef->StartTimer();
-
-		GI->bRestartAfterReload = false;
-		return;
-	}
+	GetWorldTimerManager().ClearAllTimersForObject(this);
 }

@@ -22,6 +22,9 @@
     <None Include="..\..\Config\DefaultGame.ini">
       <Filter>Config</Filter>
     </None>
+    <None Include="..\..\Config\DefaultGameplayTags.ini">
+      <Filter>Config</Filter>
+    </None>
     <None Include="..\..\Config\DefaultInput.ini">
       <Filter>Config</Filter>
     </None>
@@ -49,10 +52,28 @@
     <ClInclude Include="..\..\Source\WorldSwap\GameStateSubSystem.h">
       <Filter>Source\WorldSwap</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\GameplayAbilityBase.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\GameplayAbilityBase.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\LevelCollectable.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\LevelCollectable.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\WorldSwap\LevelEndpoint.cpp">
       <Filter>Source\WorldSwap</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\WorldSwap\LevelEndpoint.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\LevelObstacle.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\LevelObstacle.h">
       <Filter>Source\WorldSwap</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\WorldSwap\LevelPlatform.cpp">
@@ -65,6 +86,12 @@
       <Filter>Source\WorldSwap</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\WorldSwap\LevelPlatform_MovementComponent.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\MainMenuGameMode.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\MainMenuGameMode.h">
       <Filter>Source\WorldSwap</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\WorldSwap\TimerObject.cpp">
@@ -353,6 +380,12 @@
       <Filter>Source\WorldSwap</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\WorldSwap\WorldSwap.h">
+      <Filter>Source\WorldSwap</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\WorldSwap\WorldSwapAbilitySystemComponent.cpp">
+      <Filter>Source\WorldSwap</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\WorldSwap\WorldSwapAbilitySystemComponent.h">
       <Filter>Source\WorldSwap</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\WorldSwap\WorldSwapCharacter.cpp">

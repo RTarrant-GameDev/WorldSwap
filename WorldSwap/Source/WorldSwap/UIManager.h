@@ -17,6 +17,7 @@ class WORLDSWAP_API UUIManager : public UObject
 	
 public:
     void Initialize(UWorld* World);
+    void Shutdown();
 
     UFUNCTION()
     void HandleStateChanged(EGameState NewState);
@@ -28,6 +29,7 @@ private:
     void ShowPauseMenu();
     void ShowGameOverMenu();
     void ShowLevelCompleteMenu();
+    void ShowLevelSelectionMenu();
 
     void SetUIOnlyMode();
     void SetGameOnlyMode();

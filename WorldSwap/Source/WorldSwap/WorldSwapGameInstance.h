@@ -41,6 +41,29 @@ public:
     int32 GetLivesCount();
 #pragma endregion 
 
+#pragma region Levels
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Levels")
+    TArray<FName> Levels;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Levels")
+    int32 CurrentLevelIndex = 0;
+
+    UFUNCTION(BlueprintCallable)
+    void StartGameFromFirstLevel();
+
+    UFUNCTION(BlueprintCallable)
+    void LoadBonusLevel();
+
+    UFUNCTION(BlueprintCallable)
+    void LoadNextLevel();
+
+    UFUNCTION(BlueprintCallable)
+    void LoadLevel(FString LevelName);
+
+    UFUNCTION(BlueprintCallable)
+    void LoadMainMenu();
+#pragma endregion
+
 private:
     // Called automatically after a map finishes loading
     UFUNCTION()

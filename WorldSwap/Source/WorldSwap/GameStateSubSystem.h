@@ -7,12 +7,13 @@
 UENUM(BlueprintType)
 enum class EGameState : uint8
 {
-    Default = 0 UMETA(DisplayName = "Default"),
-    Start = 1 UMETA(DisplayName = "Start"),
-    Gameplay = 2 UMETA(DisplayName = "Gameplay"),
-    Pause = 3 UMETA(DisplayName = "Pause"),
-    GameOver = 4 UMETA(DisplayName = "GameOver"),
-    LevelComplete = 5 UMETA(DisplayName = "LevelComplete")
+    Default,
+    Start,
+    Gameplay,
+    Pause,
+    GameOver,
+    LevelComplete,
+    LevelSelection
 };
 
 // -------------------------------
@@ -40,7 +41,7 @@ public:
     FOnGameplayStateExited OnStateExited;
 
     UFUNCTION(BlueprintCallable)
-    void SetGameState(int32 stateNum);
+    void SetGameState(EGameState NewState);
 
     UFUNCTION(BlueprintCallable)
     EGameState GetState() const { return CurrentState; }

@@ -96478,6 +96478,12 @@
     <ClInclude Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabSettingsWindow.h">
       <Filter>Plugins\Fab\Source\Fab\Private</Filter>
     </ClInclude>
+    <ClCompile Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabWebLog.cpp">
+      <Filter>Plugins\Fab\Source\Fab\Private</Filter>
+    </ClCompile>
+    <ClInclude Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabWebLog.h">
+      <Filter>Plugins\Fab\Source\Fab\Private</Filter>
+    </ClInclude>
     <ClCompile Include="D:\Epic Games\Games\UE_5.8\Engine\Plugins\Fab\Source\Fab\Private\FabWorkflowFactoryRegistry.cpp">
       <Filter>Plugins\Fab\Source\Fab\Private</Filter>
     </ClCompile>

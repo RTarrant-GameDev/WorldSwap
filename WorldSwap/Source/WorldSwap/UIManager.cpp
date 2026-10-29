@@ -21,12 +21,48 @@ void UUIManager::Initialize(UWorld* World)
         UE_LOG(LogTemp, Error, TEXT("UIManager::Initialize: No GameStateSubSystem"));
         return;
     }
-    SM->OnGameplayStateChanged.AddDynamic(this, &UUIManager::HandleStateChanged);
+
+    SM->OnGameplayStateChanged.RemoveDynamic(
+        this,
+        &UUIManager::HandleStateChanged);
+
+    SM->OnGameplayStateChanged.AddDynamic(
+        this,
+        &UUIManager::HandleStateChanged);
+
+    // Force sync with current state
+    HandleStateChanged(SM->GetState());
+}
+
+void UUIManager::Shutdown()
+{
+    if (CurrentWidget)
+    {
+        UE_LOG(
+            LogTemp,
+            Warning,
+            TEXT("Removing widget: %s"),
+            *GetNameSafe(CurrentWidget));
+
+        CurrentWidget->RemoveFromParent();
+        CurrentWidget = nullptr;
+    }
+
+    if (UWorld* World = GetWorld())
+    {
+        World->GetTimerManager().ClearAllTimersForObject(this);
+    }
 }
 
 void UUIManager::HandleStateChanged(EGameState NewState)
 {
     PendingState = NewState;
+
+    UE_LOG(
+        LogTemp,
+        Warning,
+        TEXT("State Changed: %d"),
+        (int32)NewState);
 
     UWorld* World = GetWorld();
     if (!World)
@@ -84,15 +120,17 @@ void UUIManager::ShowLevelCompleteMenu()
     ReplaceWidget(CurrentWidget, TEXT("/Game/Widgets/BP_LevelCompleteWidget.BP_LevelCompleteWidget_C"), GetWorld());
 }
 
+void UUIManager::ShowLevelSelectionMenu()
+{
+    ReplaceWidget(CurrentWidget, TEXT("/Game/Widgets/BP_LevelSelectionWidget.BP_LevelSelectionWidget_C"), GetWorld());
+}
+
 void UUIManager::SetUIOnlyMode()
 {
     APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-    PC->DisableInput(PC);
-    PC->SetShowMouseCursor(true);
-
     FInputModeUIOnly InputMode;
-    InputMode.SetWidgetToFocus(CurrentWidget->TakeWidget());
     PC->SetInputMode(InputMode);
+    PC->SetShowMouseCursor(true);
 }
 
 void UUIManager::SetGameOnlyMode()
@@ -137,6 +175,10 @@ void UUIManager::ProcessStateChange()
         break;
     case EGameState::LevelComplete:
         ShowLevelCompleteMenu();
+        SetUIOnlyMode();
+        break;
+    case EGameState::LevelSelection:
+        ShowLevelSelectionMenu();
         SetUIOnlyMode();
         break;
     }

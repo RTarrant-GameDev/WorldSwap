@@ -3,11 +3,28 @@
 #include "WorldSwapGameInstance.h"
 #include "GameStateSubSystem.h"
 #include "WorldSwapGameMode.h"
+#include "Kismet/GameplayStatics.h"
 #include "UIManager.h"
 
 void UWorldSwapGameInstance::Init()
 {
     Super::Init();
+
+    Levels = {
+        TEXT("Level1"),
+        TEXT("Level2"),
+        TEXT("Level3"),
+        TEXT("Level4"),
+        TEXT("Level5"),
+        TEXT("Level6")
+    };
+
+    for (const FName& Level : Levels)
+    {
+        UE_LOG(LogTemp, Warning,
+            TEXT("Stored Level = %s"),
+            *Level.ToString());
+    }
 }
 
 void UWorldSwapGameInstance::CreateUIManager(UWorld* World)
@@ -25,17 +42,17 @@ void UWorldSwapGameInstance::CreateUIManager(UWorld* World)
 
 void UWorldSwapGameInstance::SetLivesCount(int32 LivesCountToSet)
 {
-    LivesCount = LivesCountToSet;
+    LivesCount = FMath::Max(0, LivesCountToSet);
 }
 
 void UWorldSwapGameInstance::AddToLivesCount()
 {
-    LivesCount++;
+    ++LivesCount;
 }
 
 void UWorldSwapGameInstance::SubtractFromLivesCount()
 {
-    LivesCount--;
+    LivesCount = FMath::Max(0, LivesCount - 1);
 }
 
 int32 UWorldSwapGameInstance::GetLivesCount()
@@ -43,9 +60,89 @@ int32 UWorldSwapGameInstance::GetLivesCount()
     return LivesCount;
 }
 
+void UWorldSwapGameInstance::StartGameFromFirstLevel()
+{
+    LoadLevel(TEXT("Level1"));
+}
+
+void UWorldSwapGameInstance::LoadBonusLevel()
+{
+    LoadLevel(TEXT("FirstLevel"));
+}
+
+void UWorldSwapGameInstance::LoadNextLevel()
+{
+    const int32 NextIndex = CurrentLevelIndex + 1;
+
+    if (!Levels.IsValidIndex(NextIndex))
+    {
+        LoadMainMenu();
+        return;
+    }
+
+    LoadLevel(Levels[NextIndex].ToString());
+}
+
+void UWorldSwapGameInstance::LoadLevel(FString LevelName)
+{
+    UE_LOG(LogTemp, Warning,
+        TEXT("LoadLevel: %s"),
+        *LevelName);
+
+    CurrentLevelIndex =
+        Levels.IndexOfByKey(FName(*LevelName));
+
+    UE_LOG(LogTemp, Warning,
+        TEXT("CurrentLevelIndex set to %d"),
+        CurrentLevelIndex);
+
+    if (UIManager)
+    {
+        UIManager->Shutdown();
+    }
+
+    UGameplayStatics::OpenLevel(
+        GetWorld(),
+        FName(*LevelName));
+}
+
+void UWorldSwapGameInstance::LoadMainMenu()
+{
+    if (UIManager)
+    {
+        UIManager->Shutdown();
+    }
+
+    UGameplayStatics::OpenLevel(
+        GetWorld(),
+        TEXT("MainMenu")
+    );
+}
+
 void UWorldSwapGameInstance::HandleMapLoaded(UWorld* LoadedWorld)
 {
-    // Ensure UIManager exists and is initialized
+    UE_LOG(LogTemp, Warning,
+        TEXT("HandleMapLoaded Called"));
+
+    if (!LoadedWorld)
+    {
+        return;
+    }
+
+    // Determine which level we just loaded
+    const FName CurrentMapName(
+        *UGameplayStatics::GetCurrentLevelName(
+            LoadedWorld,
+            true));
+
+    CurrentLevelIndex =
+        Levels.IndexOfByKey(CurrentMapName);
+
+    UE_LOG(LogTemp, Warning,
+        TEXT("Loaded Level: %s (Index %d)"),
+        *CurrentMapName.ToString(),
+        CurrentLevelIndex);
+
     if (!UIManager)
     {
         CreateUIManager(LoadedWorld);
@@ -55,29 +152,18 @@ void UWorldSwapGameInstance::HandleMapLoaded(UWorld* LoadedWorld)
         UIManager->Initialize(LoadedWorld);
     }
 
-    UGameStateSubSystem* SM = GetSubsystem<UGameStateSubSystem>();
-    if (!SM)
-        return;
-
-    // FIRST TIME LAUNCH → SHOW MAIN MENU
-    if (!bHasInitializedFirstTimeSetup)
-    {
-        SM->SetGameState(1); // Main menu
-        bHasInitializedFirstTimeSetup = true;
-        return;
-    }
-
-    // AFTER RESTART → SHOW GAMEPLAY HUD
-    SM->SetGameState(2);
-
-    // Only respawn player if this was a "restart after game over"
     if (bRestartAfterReload)
     {
-        APlayerController* PC = LoadedWorld->GetFirstPlayerController();
+        APlayerController* PC =
+            LoadedWorld->GetFirstPlayerController();
+
         if (PC)
         {
-            AWorldSwapGameMode* GM = LoadedWorld->GetAuthGameMode<AWorldSwapGameMode>();
-            GM->RestartPlayer(PC);
+            if (AWorldSwapGameMode* GM =
+                LoadedWorld->GetAuthGameMode<AWorldSwapGameMode>())
+            {
+                GM->RestartPlayer(PC);
+            }
 
             PC->bShowMouseCursor = false;
             PC->SetPause(false);

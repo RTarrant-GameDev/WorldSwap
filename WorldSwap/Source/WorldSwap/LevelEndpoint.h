@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/BoxComponent.h"
-#include "WorldSwapGameMode.h"
 #include "GameFramework/Actor.h"
 #include "LevelEndpoint.generated.h"
 
@@ -20,6 +19,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	class UBoxComponent* BoxComponent;
 
+	bool bIsActive = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,4 +34,6 @@ public:
 	
 	UFUNCTION()
 	void Collide();
+
+	void SetActive(bool bActive);
 };

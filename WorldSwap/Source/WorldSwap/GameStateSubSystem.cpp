@@ -4,10 +4,8 @@
 #include "GameStateSubSystem.h"
 #include "Kismet/GameplayStatics.h"
 
-void UGameStateSubSystem::SetGameState(int32 stateNum)
+void UGameStateSubSystem::SetGameState(EGameState NewState)
 {
-    EGameState NewState = static_cast<EGameState>(stateNum);
-
     if (CurrentState != NewState)
     {
         OnStateExited.Broadcast(CurrentState);

@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "WorldSwapCharacter.generated.h"
 
+class UWorldSwapAbilitySystemComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
@@ -30,6 +31,12 @@ class AWorldSwapCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	/** Abilities */
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UWorldSwapAbilitySystemComponent* AbilitySystemComponent;
+
 	
 protected:
 
@@ -53,13 +60,9 @@ protected:
 	UInputAction* PauseAction;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-	UInputAction* WorldSwapAction1;
-
-	UPROPERTY(EditAnywhere, Category = "Input")
-	UInputAction* WorldSwapAction2;
+	UInputAction* WorldSwapAction;
 
 public:
-
 	/** Constructor */
 	AWorldSwapCharacter();	
 
@@ -75,10 +78,6 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-
-	/** Called for WorldSwapping */
-	void WorldSwapDimensionSwap1();
-	void WorldSwapDimensionSwap2();
 
 	void Pause();
 
@@ -99,6 +98,9 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void ActivateAbility();
 
 public:
 
